@@ -1,0 +1,62 @@
+ [
+                     {
+                       "id" : 1,
+                       "nombre" : "Total Notas",
+                       "tabla" : "catNotas",
+                       "campo" : "idEnvioNota",
+                       "campoFecha" : "fecha",
+                       "campoUsuario" : "usuario",
+                       "consulta" : "select usuario as campo1,sum(Total) as campo2, 0 as campo3,DATE_FORMAT(fecha,'%Y-%m-%d') as fecha, max(fecha) as maxDate from catNotas where idEnvioNota is null group by usuario,DATE_FORMAT(fecha,'%Y-%m-%d')",
+                       "consultaUpdate" : "UPDATE catNotas SET idEnvioNota = {0} WHERE idEnvioNota is null and fecha <= '**maxDate**' and usuario = '**usuario**'",
+                       "pramaetrosUpdate" : ["maxDate", "usuario"],
+                       "obtenerIdUsuario" : "False"
+                     },
+                     {
+                       "id" : 2,
+                       "nombre" : "Total Eliminados",
+                       "tabla" : "catEliminados",
+                       "campo" : "idEnvioEliminado",
+                       "campoFecha" : "dtFechaEliminado",
+                       "campoUsuario" : "IdUsuario",
+                       "consulta" : "select cu.clogin as usuario,sum(ce.dCantidad) as campo1,sum(ce.dPrecio) as campo1,DATE_FORMAT(ce.dtFechaEliminado,'%Y-%m-%d') as fecha, max(dtFechaEliminado) as maxDate from catEliminados  ce inner join catUsuarios cu on ce.IdUsuario = cu.iidusuario where ce.idEnvioEliminado is null  group by cu.clogin,DATE_FORMAT(ce.dtFechaEliminado,'%Y-%m-%d')",
+                       "consultaUpdate" : "UPDATE catEliminados SET idEnvioEliminado = {0} WHERE idEnvioEliminado is null and dtFechaEliminado <= '**maxDate**' and IdUsuario = **usuario**",
+                       "pramaetrosUpdate" : ["maxDate", "usuario"],
+                       "obtenerIdUsuario" : "True"
+                     },
+                     {
+                       "id" : 3,
+                       "nombre" : "Total Cortes",
+                       "tabla" : "catCorte",
+                       "campo" : "idEnvioCorte",
+                       "campoFecha" : "dtFecha",
+                       "campoUsuario" : "cusuario",
+                       "consulta" : "select cusuario as campo1,sum(Total) as campo2, 0 as campo3,DATE_FORMAT(dtFecha,'%Y-%m-%d') as fecha, max(dtFecha) as maxDate from catCorte where idEnvioCorte is null group by cusuario,DATE_FORMAT(dtFecha,'%Y-%m-%d')",
+                       "consultaUpdate" : "UPDATE catCorte SET idEnvioCorte = {0} WHERE idEnvioCorte is null and dtFecha <= '**maxDate**' and cusuario = '**usuario**'",
+                       "pramaetrosUpdate" : ["maxDate", "usuario"],
+                       "obtenerIdUsuario" : "False"
+                     },
+                     {
+                       "id" : 4,
+                       "nombre" : "Total Pagos Tarjeta",
+                       "tabla" : "detPagosNotaTarjeta",
+                       "campo" : "idEnvioPagoTarjeta",
+                       "campoFecha" : "fecha",
+                       "campoUsuario" : "usuario",
+                       "consulta" : "select cn.usuario as campo1,sum(dpnt.dCantidad) as campo2, 0 as campo3,DATE_FORMAT(fecha,'%Y-%m-%d') as fecha, max(fecha) as maxDate from catNotas cn inner join detPagosNotaTarjeta dpnt on cn.IdFactura = dpnt.IdFactura where dpnt.idEnvioPagoTarjeta is null group by usuario,DATE_FORMAT(fecha,'%Y-%m-%d')",
+                       "consultaUpdate" : "UPDATE detPagosNotaTarjeta inner join catNotas on detPagosNotaTarjeta.idFactura = catNotas.idFactura SET detPagosNotaTarjeta.idEnvioPagoTarjeta = {0} WHERE detPagosNotaTarjeta.idEnvioPagoTarjeta is null and catNotas.fecha <= '**maxDate**' and catNotas.usuario = '**usuario**'",
+                       "pramaetrosUpdate" : ["maxDate", "usuario"],
+                       "obtenerIdUsuario" : "False"
+                     },
+                     {
+                       "id" : 5,
+                       "nombre" : "Total Venta Articulos",
+                       "tabla" : "detNota",
+                       "campo" : "idEnvioDetNota",
+                       "campoFecha" : "fecha",
+                       "campoUsuario" : "usuario",
+                       "consulta" : "SELECT Q2.campo1, Q2.campo2, can.idNube AS campo3, Q2.fecha, Q2.maxDate FROM(SELECT usuario AS campo1, SUM(Cantidad) AS campo2, IdProducto, fecha, maxDate FROM (SELECT cn.usuario,dn.IdProducto,dn.Cantidad,DATE_FORMAT(fecha,'%Y-%m-%d') AS fecha, max(fecha) as maxDate FROM catNotas cn INNER JOIN detNota dn ON cn.IdFactura = dn.IdFactura AND dn.IdEnvioDetNota IS NULL)Q1 GROUP BY usuario, IdProducto, fecha ORDER BY fecha,usuario,IdProducto)Q2 INNER JOIN catArticulosNube can ON Q2.IdProducto = can.idLocal",
+                       "consultaUpdate" : "UPDATE detNota inner join catNotas on detNota.idFactura = catNotas.idFactura SET detNota.idEnvioDetNota = {0} WHERE detNota.idEnvioDetNota is null and catNotas.fecha <= '**maxDate**' and catNotas.usuario = '**usuario**'",
+                       "pramaetrosUpdate" : ["maxDate", "usuario"],
+                       "obtenerIdUsuario" : "False"
+                     }
+]
