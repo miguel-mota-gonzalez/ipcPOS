@@ -17,7 +17,8 @@ def getColumnNames(tableName):
 
     returnData = []
     for data in cursor.fetchall():
-        returnData.append(data[0])
+        if (data[0]!='aplicaPrecioUnico' and data[0]!='precioUnico'):
+            returnData.append(data[0])
 
     db.close()
 
