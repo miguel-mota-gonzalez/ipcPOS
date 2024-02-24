@@ -85,7 +85,7 @@ if __name__ == '__main__':
     colNames = getColumnNames('catProveedores_')
     print(colNames)
 
-    r = requests.get('http://45.55.248.209:5001/proveedores/')
+    r = requests.get('http://server:5001/proveedores/')
     jsonResponse = r.json()
 
     #print(jsonResponse)
