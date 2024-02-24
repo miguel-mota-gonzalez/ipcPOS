@@ -177,8 +177,8 @@ if __name__ == '__main__':
         fp.write("Actualizacion completada exitosamente\n")
         if totalReg > 0:
             print(dtRegModificado)
-            resultEnd=requests.get('http://45.55.248.209:5002/productos/actualizacion/{0}/{1}'.format(idTienda,dtRegModificado))
-            print('http://45.55.248.209:5002/productos/actualizacion/{0}/{1}'.format(idTienda,dtRegModificado))
+            resultEnd=requests.get('http://server:5002/productos/actualizacion/{0}/{1}'.format(idTienda,dtRegModificado))
+            print('http://server:5002/productos/actualizacion/{0}/{1}'.format(idTienda,dtRegModificado))
             print(resultEnd)
     else:
         print("Actualuzacion completada con errores...")
